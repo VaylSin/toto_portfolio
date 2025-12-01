@@ -53,6 +53,89 @@ document.addEventListener("DOMContentLoaded", function () {
 		}, 3000);
 	}
 
+	// Smooth scroll personnalisé pour desktop
+	function initSmoothScrollDesktop() {
+		// Vérifier si on est sur desktop (pas mobile/tablet)
+		const isDesktop = window.innerWidth >= 1024 && window.matchMedia('(pointer: fine)').matches;
+		
+		if (!isDesktop) return; // Ne pas activer sur mobile/tablet
+		
+		let currentScroll = 0;
+		let targetScroll = 0;
+		let ease = 0.1;
+		let animationId;
+		
+		// Wrapper pour le contenu
+		const pageWrapper = document.getElementById('page');
+		if (!pageWrapper) return;
+		
+		// Créer un wrapper smooth
+		const smoothWrapper = document.createElement('div');
+		smoothWrapper.className = 'smooth-wrapper';
+		
+		// Déplacer tout le contenu dans le wrapper
+		while (pageWrapper.firstChild) {
+			smoothWrapper.appendChild(pageWrapper.firstChild);
+		}
+		pageWrapper.appendChild(smoothWrapper);
+		
+		// Ajouter la classe au body
+		document.body.classList.add('smooth-scroll');
+		
+		// Fonction d'animation
+		function smoothScrollAnimation() {
+			currentScroll += (targetScroll - currentScroll) * ease;
+			
+			// Appliquer la transformation
+			smoothWrapper.style.transform = `translate3d(0, ${-currentScroll}px, 0)`;
+			
+			// Continuer l'animation si nécessaire
+			if (Math.abs(targetScroll - currentScroll) > 0.1) {
+				animationId = requestAnimationFrame(smoothScrollAnimation);
+			}
+		}
+		
+		// Gérer les événements de scroll
+		function handleWheel(e) {
+			e.preventDefault();
+			
+			const delta = e.deltaY;
+			targetScroll += delta;
+			
+			// Limiter le scroll
+			const maxScroll = smoothWrapper.offsetHeight - window.innerHeight;
+			targetScroll = Math.max(0, Math.min(maxScroll, targetScroll));
+			
+			// Démarrer l'animation
+			cancelAnimationFrame(animationId);
+			animationId = requestAnimationFrame(smoothScrollAnimation);
+		}
+		
+		// Écouter les événements wheel
+		window.addEventListener('wheel', handleWheel, { passive: false });
+		
+		// Gérer le redimensionnement
+		window.addEventListener('resize', () => {
+			const newIsDesktop = window.innerWidth >= 1024 && window.matchMedia('(pointer: fine)').matches;
+			if (!newIsDesktop) {
+				// Désactiver le smooth scroll si on passe en mobile
+				document.body.classList.remove('smooth-scroll');
+				window.removeEventListener('wheel', handleWheel);
+			}
+		});
+		
+		// Navigation smooth vers les ancres
+		function scrollToElement(element) {
+			const elementTop = element.offsetTop;
+			targetScroll = elementTop;
+			cancelAnimationFrame(animationId);
+			animationId = requestAnimationFrame(smoothScrollAnimation);
+		}
+		
+		// Exposer la fonction pour les liens d'ancrage
+		window.smoothScrollTo = scrollToElement;
+	}
+
 	// Smooth scrolling for anchor links
 	function initSmoothScrolling() {
 		const anchorLinks = document.querySelectorAll('a[href^="#"]');
@@ -65,14 +148,19 @@ document.addEventListener("DOMContentLoaded", function () {
 				const targetElement = document.querySelector(targetId);
 
 				if (targetElement) {
-					const headerHeight =
-						document.querySelector(".site-header").offsetHeight;
-					const targetPosition = targetElement.offsetTop - headerHeight;
+					// Utiliser le smooth scroll personnalisé sur desktop
+					if (window.smoothScrollTo && document.body.classList.contains('smooth-scroll')) {
+						window.smoothScrollTo(targetElement);
+					} else {
+						// Fallback scroll classique pour mobile/tablet
+						const headerHeight = document.querySelector(".site-header").offsetHeight;
+						const targetPosition = targetElement.offsetTop - headerHeight;
 
-					window.scrollTo({
-						top: targetPosition,
-						behavior: "smooth",
-					});
+						window.scrollTo({
+							top: targetPosition,
+							behavior: "smooth",
+						});
+					}
 
 					// Update active menu item
 					updateActiveMenuItem(targetId);
@@ -345,8 +433,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		window.addEventListener("scroll", checkScroll);
 		checkScroll(); // Check on load
-	} // Initialize all functions
+	// Initialize all functions
 	initPageLoader();
+	initSmoothScrollDesktop();
 	initSmoothScrolling();
 	initHeaderScrollEffect();
 	initMobileMenu();

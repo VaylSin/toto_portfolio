@@ -1,0 +1,146 @@
+// Galerie Masonry Layout
+.galerie-masonry-container {
+	margin: 2rem 0;
+}
+
+.galerie-masonry {
+	column-count: 3;
+	column-gap: 1rem;
+
+	@media (max-width: 768px) {
+		column-count: 2;
+	}
+
+	@media (max-width: 480px) {
+		column-count: 1;
+	}
+}
+
+.galerie-item {
+	display: inline-block;
+	width: 100%;
+	margin-bottom: 1rem;
+	break-inside: avoid;
+	position: relative;
+	overflow: hidden;
+	border-radius: 4px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+	cursor: pointer;
+
+	&:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+	}
+}
+
+.galerie-image {
+	width: 100%;
+	height: auto;
+	display: block;
+	transition: transform 0.3s ease;
+
+	.galerie-item:hover & {
+		transform: scale(1.02);
+	}
+}
+
+.galerie-caption {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+	color: white;
+	padding: 2rem 1rem 1rem;
+	font-size: 0.9rem;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+
+	.galerie-item:hover & {
+		opacity: 1;
+	}
+}
+
+// Categories styling
+.galerie-categories {
+	margin-bottom: 1rem;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
+.galerie-category {
+	background: #f0f0f0;
+	color: #333;
+	padding: 0.25rem 0.75rem;
+	border-radius: 20px;
+	font-size: 0.8rem;
+	font-weight: 500;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+// Featured image styling
+.galerie-featured-image {
+	margin: 2rem 0;
+	text-align: center;
+
+	img {
+		max-width: 100%;
+		height: auto;
+		border-radius: 8px;
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+	}
+}
+
+// Navigation styling
+.galerie-navigation {
+	margin-top: 3rem;
+	padding-top: 2rem;
+	border-top: 1px solid #e0e0e0;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 2rem;
+
+	@media (max-width: 768px) {
+		grid-template-columns: 1fr;
+	}
+}
+
+.nav-previous,
+.nav-next {
+	a {
+		display: block;
+		padding: 1rem;
+		background: #f8f9fa;
+		border-radius: 8px;
+		text-decoration: none;
+		color: #333;
+		transition: background-color 0.3s ease, transform 0.3s ease;
+
+		&:hover {
+			background: #e9ecef;
+			transform: translateY(-2px);
+		}
+	}
+}
+
+.nav-subtitle {
+	display: block;
+	font-size: 0.8rem;
+	color: #666;
+	margin-bottom: 0.25rem;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+.nav-title {
+	display: block;
+	font-weight: 600;
+	color: #333;
+}
+
+.nav-next {
+	text-align: right;
+}

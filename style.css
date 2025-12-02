@@ -1004,6 +1004,15 @@ textarea {
 # Custom Galerie Styles
 --------------------------------------------------------------*/
 
+/* Entry title styling pour single galerie */
+.single-galerie .entry-title {
+	text-transform: uppercase;
+	font-style: italic;
+	text-align: center;
+	padding: 2rem 0;
+	margin-bottom: 2rem;
+}
+
 /* Galerie Masonry Layout */
 .galerie-masonry-container {
 	margin: 2rem 0;
@@ -1011,7 +1020,8 @@ textarea {
 
 .galerie-masonry {
 	column-count: 3;
-	column-gap: 1rem;
+	column-gap: 0.5rem;
+	row-gap: 0.5rem;
 }
 
 @media (max-width: 768px) {
@@ -1029,7 +1039,6 @@ textarea {
 .galerie-item {
 	display: inline-block;
 	width: 100%;
-	margin-bottom: 1rem;
 	break-inside: avoid;
 	position: relative;
 	overflow: hidden;
@@ -1048,11 +1057,6 @@ textarea {
 	width: 100%;
 	height: auto;
 	display: block;
-	transition: transform 0.3s ease;
-}
-
-.galerie-item:hover .galerie-image {
-	transform: scale(1.02);
 }
 
 .galerie-caption {
@@ -1182,6 +1186,7 @@ textarea {
 	border-radius: 4px;
 	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 	animation: zoomIn 0.3s ease;
+	transition: opacity 0.3s ease;
 }
 
 .galerie-close {
@@ -1189,24 +1194,17 @@ textarea {
 	top: 20px;
 	right: 35px;
 	color: #fff;
-	font-size: 40px;
-	font-weight: bold;
+	font-size: 30px;
+	font-weight: normal;
 	cursor: pointer;
 	z-index: 10000;
-	width: 50px;
-	height: 50px;
+	width: 40px;
+	height: 40px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	border-radius: 50%;
 	background: rgba(0, 0, 0, 0.5);
-	transition: all 0.3s ease;
-}
-
-.galerie-close:hover,
-.galerie-close:focus {
-	background: rgba(255, 255, 255, 0.2);
-	transform: scale(1.1);
 }
 
 .galerie-lightbox-caption {
@@ -1243,14 +1241,7 @@ textarea {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	transition: all 0.3s ease;
 	text-decoration: none;
-}
-
-.galerie-prev:hover,
-.galerie-next:hover {
-	background: rgba(255, 255, 255, 0.2);
-	transform: translateY(-50%) scale(1.1);
 }
 
 .galerie-prev {
@@ -1266,9 +1257,9 @@ textarea {
 	.galerie-close {
 		top: 10px;
 		right: 15px;
-		font-size: 30px;
-		width: 40px;
-		height: 40px;
+		font-size: 24px;
+		width: 35px;
+		height: 35px;
 	}
 
 	.galerie-prev,
@@ -1396,25 +1387,6 @@ body.galerie-lightbox-open {
 	display: inline-block;
 }
 
-.custom-logo-link {
-	display: inline-block;
-	line-height: 1;
-}
-
-.custom-logo {
-	height: auto;
-	max-height: 50px;
-	width: auto;
-	max-width: 200px;
-	display: block;
-}
-
-.svg-logo {
-	height: 50px;
-	width: auto;
-	filter: brightness(0) invert(1); /* Rendre le SVG blanc */
-}
-
 .site-title {
 	color: white;
 	text-decoration: none;
@@ -1426,6 +1398,7 @@ body.galerie-lightbox-open {
 .custom-logo {
 	max-height: 60px;
 	width: auto;
+	filter: brightness(0);
 }
 
 .header-nav {
@@ -2164,6 +2137,13 @@ body:not(.home) {
 	margin-top: 2rem;
 }
 
+/* Single galerie contact button wrapper */
+.single-galerie .contact-button-wrapper {
+	text-align: center;
+	margin-top: 5rem;
+	margin-bottom: 2rem;
+}
+
 .contact-photographer-btn {
 	display: inline-block;
 	padding: 1rem 2.5rem;
@@ -2176,15 +2156,11 @@ body:not(.home) {
 	font-size: 1rem;
 	text-transform: none;
 	box-shadow: 0 0 1px #ccc;
-	transition-duration: 0.5s;
-	transition-timing-function: linear;
-	box-shadow: 0px 0 0 #fff inset;
-	position: relative;
-	overflow: hidden;
+	transition: background 0.2s ease, color 0.2s ease;
 }
 
 .contact-photographer-btn:hover {
-	box-shadow: -200px 0 0 #000 inset;
+	background: black;
 	color: white;
 }
 
@@ -2250,7 +2226,8 @@ body:not(.home) {
 }
 
 /* Form Styles */
-.reservation-form {
+.reservation-form,
+.contact-form-wrapper {
 	background: white;
 	padding: 2rem;
 	border-radius: 10px;
@@ -2290,6 +2267,275 @@ body:not(.home) {
 .form-group textarea {
 	resize: vertical;
 	min-height: 120px;
+}
+
+/*--------------------------------------------------------------
+# Contact Page Styles
+--------------------------------------------------------------*/
+
+/* Contact page wrapper */
+.contact-page {
+	background: white;
+}
+
+/* Header banner avec image d'en-tête */
+.contact-header-banner {
+	position: relative;
+	height: 25rem; /* 400px */
+	overflow: hidden;
+	margin-bottom: 0;
+}
+
+.contact-header-image {
+	width: 100%;
+	height: 100%;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	position: relative;
+	filter: grayscale(100%); /* Image en noir et blanc */
+}
+
+.contact-header-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.3);
+}
+
+/* Content wrapper */
+.contact-content-wrapper {
+	padding: 4rem 0;
+}
+
+/* Titre dans le header banner */
+.contact-header-title {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: white;
+	font-size: 3rem;
+	font-weight: 700;
+	text-align: center;
+	text-transform: uppercase;
+	z-index: 10;
+	margin: 0;
+}
+
+.contact-page .entry-header {
+	display: none; /* Masquer le titre par défaut */
+}
+
+.contact-page .entry-title {
+	font-size: 2.5rem;
+	color: #333;
+	margin-bottom: 0;
+	text-transform: uppercase;
+	font-weight: 600;
+}
+
+.contact-page .entry-content {
+	max-width: 800px;
+	margin: 0 auto 4rem;
+	text-align: center;
+	font-size: 1.1rem;
+	line-height: 1.7;
+	color: #555;
+}
+
+.contact-page .entry-content p {
+	margin-bottom: 1.5rem;
+}
+
+/* Section formulaire */
+.contact-form-section {
+	margin-top: 3rem;
+}
+
+.contact-page .contact-form-wrapper {
+	max-width: 600px;
+	margin: 0 auto;
+	background: #f8f9fa;
+	padding: 3rem;
+	border-radius: 12px;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+	.contact-header-banner {
+		height: 20rem; /* Plus petit sur mobile */
+	}
+
+	.contact-content-wrapper {
+		padding: 2rem 0;
+	}
+
+	.contact-page .entry-title {
+		font-size: 2rem;
+	}
+
+	.contact-page .entry-content {
+		font-size: 1rem;
+		margin-bottom: 2rem;
+	}
+
+	.contact-page .contact-form-wrapper {
+		padding: 2rem 1.5rem;
+		margin: 0 1rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.contact-header-banner {
+		height: 15rem;
+	}
+
+	.contact-page .entry-title {
+		font-size: 1.75rem;
+	}
+
+	.contact-page .contact-form-wrapper {
+		padding: 1.5rem;
+	}
+}
+
+/*--------------------------------------------------------------
+# Contact Form 7 Styles
+--------------------------------------------------------------*/
+
+/* Wrapper pour le formulaire de contact */
+.wpcf7-form {
+	max-width: 600px;
+	margin: 0 auto;
+}
+
+/* Style des labels - en majuscules au-dessus des champs */
+.wpcf7-form label {
+	display: block;
+	font-weight: 600;
+	color: #333;
+	margin-bottom: 0.5rem;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	font-size: 0.9rem;
+}
+
+/* Groupes de champs */
+.wpcf7-form p {
+	margin-bottom: 1.5rem;
+}
+
+/* Style des champs de saisie */
+.wpcf7-form input[type="text"],
+.wpcf7-form input[type="email"],
+.wpcf7-form input[type="tel"],
+.wpcf7-form textarea {
+	width: 100%;
+	padding: 0.75rem;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	font-size: 1rem;
+	font-family: inherit;
+	transition: border-color 0.3s ease, box-shadow 0.3s ease;
+	background: #fff;
+}
+
+.wpcf7-form input[type="text"]:focus,
+.wpcf7-form input[type="email"]:focus,
+.wpcf7-form input[type="tel"]:focus,
+.wpcf7-form textarea:focus {
+	outline: none;
+	border-color: #007cba;
+	box-shadow: 0 0 0 3px rgba(0, 124, 186, 0.1);
+}
+
+/* Style du textarea */
+.wpcf7-form textarea {
+	resize: vertical;
+	min-height: 120px;
+}
+
+/* Bouton submit avec le même style que le bouton contacter */
+.wpcf7-form input[type="submit"] {
+	display: block;
+	margin: 0 auto;
+	padding: 1rem 2.5rem;
+	background: white;
+	color: #333;
+	border: 2px solid rgba(0, 0, 0, 0.2);
+	border-radius: 50px;
+	font-weight: 600;
+	font-size: 1rem;
+	text-transform: none;
+	cursor: pointer;
+	box-shadow: 0 0 1px #ccc;
+	transition: background 0.2s ease, color 0.2s ease;
+	font-family: inherit;
+}
+
+.wpcf7-form input[type="submit"]:hover {
+	background: black;
+	color: white;
+}
+
+/* Messages de validation */
+.wpcf7-response-output {
+	border: none !important;
+	margin: 1rem 0 !important;
+	padding: 1rem !important;
+	border-radius: 5px !important;
+}
+
+.wpcf7-mail-sent-ok {
+	background: #d4edda !important;
+	color: #155724 !important;
+	border: 1px solid #c3e6cb !important;
+}
+
+.wpcf7-validation-errors,
+.wpcf7-mail-sent-ng {
+	background: #f8d7da !important;
+	color: #721c24 !important;
+	border: 1px solid #f5c6cb !important;
+}
+
+/* Messages d'erreur pour champs individuels */
+.wpcf7-not-valid-tip {
+	color: #dc3545;
+	font-size: 0.875rem;
+	margin-top: 0.25rem;
+	display: block;
+}
+
+/* Style du spinner de chargement */
+.wpcf7-form .ajax-loader {
+	visibility: hidden;
+	display: inline-block;
+	background-image: url('data:image/svg+xml;charset=utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path opacity=".25" d="M16 0a16 16 0 010 32 16 16 0 010-32m0 4a12 12 0 100 24 12 12 0 000-24"/><path d="M16 0a16 16 0 0116 16h-4A12 12 0 0016 4z"><animateTransform attributeName="transform" type="rotate" values="0 16 16;360 16 16" dur="0.8s" repeatCount="indefinite"/></path></svg>');
+	background-size: 20px 20px;
+	width: 20px;
+	height: 20px;
+	margin-left: 10px;
+}
+
+.wpcf7-form.submitting .ajax-loader {
+	visibility: visible;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+	.contact-form-wrapper {
+		padding: 1.5rem;
+	}
+
+	.wpcf7-form input[type="submit"] {
+		padding: 0.875rem 2rem;
+		font-size: 0.9rem;
+	}
 }
 
 /* Buttons */
@@ -3177,28 +3423,9 @@ body.loading {
 /* Smooth scroll personnalisé - Desktop uniquement */
 @media (min-width: 1024px) and (pointer: fine) {
 	html {
-		scroll-behavior: auto; /* Désactiver le smooth scroll natif */
-	}
-
-	body.smooth-scroll {
-		overflow: hidden;
-	}
-
-	body.smooth-scroll #page {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		overflow: hidden;
-	}
-
-	body.smooth-scroll .smooth-wrapper {
-		will-change: transform;
-		transform: translate3d(0, 0, 0);
+		scroll-behavior: smooth;
 	}
 }
-
 .loader-content {
 	text-align: center;
 	max-width: 300px;

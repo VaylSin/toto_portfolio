@@ -55,7 +55,7 @@ get_header();
 				// Fallback : Si aucune image ACF, utiliser des images de galeries récentes
 				if ( empty( $slider_images ) ) {
 					$recent_galleries = get_posts( array(
-						'post_type' => 'gallerie',
+						'post_type' => 'galerie',
 						'posts_per_page' => 5,
 						'meta_key' => '_thumbnail_id',
 					) );
@@ -185,7 +185,7 @@ get_header();
 							<?php
 							// Récupérer toutes les galeries
 							$galleries = get_posts( array(
-								'post_type' => 'gallerie',
+								'post_type' => 'galerie',
 								'posts_per_page' => -1,
 								'post_status' => 'publish',
 								'meta_key' => '_thumbnail_id',
@@ -245,7 +245,7 @@ get_header();
 						?>
 						
 						<div class="contact-button-wrapper">
-							<a href="mailto:contact@exemple.com" class="contact-photographer-btn">
+							<a href="<?php echo esc_url( get_permalink( 112 ) ); ?>" class="contact-photographer-btn">
 								<?php esc_html_e( 'Contacter mon futur photographe', 'toto-portfolio' ); ?>
 							</a>
 						</div>

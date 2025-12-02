@@ -152,7 +152,7 @@ function toto_portfolio_scripts() {
 	}
 
 	// Enqueue galerie lightbox script only on single galerie pages
-	if ( is_singular( 'gallerie' ) ) {
+	if ( is_singular( 'galerie' ) ) {
 		wp_enqueue_script( 'toto-portfolio-galerie-lightbox', get_template_directory_uri() . '/js/galerie-lightbox.js', array(), _S_VERSION, true );
 	}
 
@@ -190,13 +190,13 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 }
 
 /**
- * Register custom post type Gallerie
+ * Register custom post type Galerie
  */
-function toto_portfolio_register_gallerie_post_type() {
+function toto_portfolio_register_galerie_post_type() {
 	$labels = array(
-		'name'               => _x( 'Galleries', 'post type general name', 'toto-portfolio' ),
+		'name'               => _x( 'Galeries', 'post type general name', 'toto-portfolio' ),
 		'singular_name'      => _x( 'Galerie', 'post type singular name', 'toto-portfolio' ),
-		'menu_name'          => _x( 'Galleries', 'admin menu', 'toto-portfolio' ),
+		'menu_name'          => _x( 'Galeries', 'admin menu', 'toto-portfolio' ),
 		'name_admin_bar'     => _x( 'Galerie', 'add new on admin bar', 'toto-portfolio' ),
 		'add_new'            => _x( 'Ajouter nouvelle', 'galerie', 'toto-portfolio' ),
 		'add_new_item'       => __( 'Ajouter nouvelle galerie', 'toto-portfolio' ),
@@ -218,7 +218,7 @@ function toto_portfolio_register_gallerie_post_type() {
 		'show_ui'            => true,
 		'show_in_menu'       => true,
 		'query_var'          => true,
-		'rewrite'            => array( 'slug' => 'gallerie' ),
+		'rewrite'            => array( 'slug' => 'galerie' ),
 		'capability_type'    => 'post',
 		'has_archive'        => true,
 		'hierarchical'       => false,
@@ -228,14 +228,14 @@ function toto_portfolio_register_gallerie_post_type() {
 		'show_in_rest'       => true,
 	);
 
-	register_post_type( 'gallerie', $args );
+	register_post_type( 'galerie', $args );
 }
-add_action( 'init', 'toto_portfolio_register_gallerie_post_type' );
+add_action( 'init', 'toto_portfolio_register_galerie_post_type' );
 
 /**
- * Register custom taxonomy for Gallerie
+ * Register custom taxonomy for Galerie
  */
-function toto_portfolio_register_gallerie_taxonomy() {
+function toto_portfolio_register_galerie_taxonomy() {
 	$labels = array(
 		'name'                       => _x( 'Catégories de galerie', 'taxonomy general name', 'toto-portfolio' ),
 		'singular_name'              => _x( 'Catégorie de galerie', 'taxonomy singular name', 'toto-portfolio' ),
@@ -265,9 +265,9 @@ function toto_portfolio_register_gallerie_taxonomy() {
 		'show_in_rest'          => true,
 	);
 
-	register_taxonomy( 'galerie-categorie', array( 'gallerie' ), $args );
+	register_taxonomy( 'galerie-categorie', array( 'galerie' ), $args );
 }
-add_action( 'init', 'toto_portfolio_register_gallerie_taxonomy' );
+add_action( 'init', 'toto_portfolio_register_galerie_taxonomy' );
 
 /**
  * Flush rewrite rules on theme activation
@@ -275,13 +275,13 @@ add_action( 'init', 'toto_portfolio_register_gallerie_taxonomy' );
 function toto_portfolio_flush_rewrites() {
 	// First, we "add" the custom post type via the above written function.
 	// Note: "add" is written with quotes because actually no rules are added here yet.
-	toto_portfolio_register_gallerie_post_type();
-	toto_portfolio_register_gallerie_taxonomy();
+	toto_portfolio_register_galerie_post_type();
+	toto_portfolio_register_galerie_taxonomy();
 
 	// Flush the rewrite rules only if not already done
-	if ( ! get_option( 'toto_portfolio_gallerie_flushed_rewrite_rules' ) ) {
+	if ( ! get_option( 'toto_portfolio_galerie_flushed_rewrite_rules' ) ) {
 		flush_rewrite_rules();
-		add_option( 'toto_portfolio_gallerie_flushed_rewrite_rules', true );
+		add_option( 'toto_portfolio_galerie_flushed_rewrite_rules', true );
 	}
 }
 add_action( 'after_switch_theme', 'toto_portfolio_flush_rewrites' );
@@ -293,7 +293,7 @@ function toto_portfolio_fallback_menu() {
 	?>
 	<ul id="primary-menu" class="fallback-menu">
 		<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Accueil', 'toto-portfolio' ); ?></a></li>
-		<li><a href="<?php echo esc_url( get_post_type_archive_link( 'gallerie' ) ); ?>"><?php esc_html_e( 'Galeries', 'toto-portfolio' ); ?></a></li>
+		<li><a href="<?php echo esc_url( get_post_type_archive_link( 'galerie' ) ); ?>"><?php esc_html_e( 'Galeries', 'toto-portfolio' ); ?></a></li>
 	</ul>
 	<?php
 }

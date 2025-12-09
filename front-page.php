@@ -72,8 +72,7 @@ get_header();
 					?>
 					<div class="slider-wrapper">
 						<?php foreach ( $slider_images as $index => $image_url ) : ?>
-							<div class="slide <?php echo $index === 0 ? 'active' : ''; ?>" 
-								 style="background-image: url('<?php echo esc_url( $image_url ); ?>');">
+							<div class="slide <?php echo $index === 0 ? 'active' : ''; ?>" data-bg="<?php echo esc_url( $image_url ); ?>">
 								<div class="slide-overlay"></div>
 							</div>
 						<?php endforeach; ?>

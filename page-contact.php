@@ -24,7 +24,7 @@ get_header();
 				$image_entete = get_field('image_entete');
 				if ( $image_entete ) : ?>
 					<div class="contact-header-banner">
-						<div class="contact-header-image" style="background-image: url('<?php echo esc_url( $image_entete['url'] ); ?>');">
+						<div class="contact-header-image" data-bg="<?php echo esc_url( $image_entete['url'] ); ?>">
 							<div class="contact-header-overlay"></div>
 							<?php if ( get_the_title() ) : ?>
 								<h1 class="contact-header-title"><?php the_title(); ?></h1>

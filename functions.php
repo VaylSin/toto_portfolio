@@ -146,10 +146,8 @@ function toto_portfolio_scripts() {
 
 	wp_enqueue_script( 'toto-portfolio-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
 
-	// Enqueue homepage script only on front page
-	if ( is_front_page() ) {
-		wp_enqueue_script( 'toto-portfolio-homepage', get_template_directory_uri() . '/js/homepage.js', array(), _S_VERSION, true );
-	}
+	// Enqueue homepage script with mobile menu on all pages
+	wp_enqueue_script( 'toto-portfolio-homepage', get_template_directory_uri() . '/js/homepage.js', array(), _S_VERSION, true );
 
 	// Enqueue galerie lightbox script only on single galerie pages
 	if ( is_singular( 'galerie' ) ) {

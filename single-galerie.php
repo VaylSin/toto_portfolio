@@ -10,7 +10,7 @@
 get_header();
 ?>
 
-	<main id="primary" class="site-main" style="width: 100%; padding: 0 2rem;">
+	<main id="primary" class="site-main">
 
 		<?php
 		while ( have_posts() ) :

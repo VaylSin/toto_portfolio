@@ -2,6 +2,29 @@
  * Homepage slider and navigation functionality
  */
 document.addEventListener("DOMContentLoaded", function () {
+	// Initialiser les backgrounds dynamiques
+	function initDynamicBackgrounds() {
+		// Slides du slider
+		const slides = document.querySelectorAll(".slide[data-bg]");
+		slides.forEach((slide) => {
+			const bg = slide.getAttribute("data-bg");
+			if (bg) {
+				slide.style.backgroundImage = `url('${bg}')`;
+			}
+		});
+
+		// Contact header image
+		const contactHeader = document.querySelector(
+			".contact-header-image[data-bg]"
+		);
+		if (contactHeader) {
+			const bg = contactHeader.getAttribute("data-bg");
+			if (bg) {
+				contactHeader.style.backgroundImage = `url('${bg}')`;
+			}
+		}
+	}
+
 	// Page Loader
 	function initPageLoader() {
 		const loader = document.getElementById("page-loader");
@@ -67,33 +90,28 @@ document.addEventListener("DOMContentLoaded", function () {
 				const targetElement = document.querySelector(targetId);
 
 				if (targetElement) {
-					// Utiliser le smooth scroll personnalisé sur desktop
-					if (
-						window.smoothScrollTo &&
-						document.body.classList.contains("smooth-scroll")
-					) {
-						window.smoothScrollTo(targetElement);
-					} else {
-						// Fallback scroll classique pour mobile/tablet
-						const headerHeight =
-							document.querySelector(".site-header").offsetHeight;
-						const targetPosition = targetElement.offsetTop - headerHeight;
+					// Scroll vers l'élément
+					const headerHeight =
+						document.querySelector(".site-header").offsetHeight;
+					const targetPosition = targetElement.offsetTop - headerHeight;
 
-						window.scrollTo({
-							top: targetPosition,
-							behavior: "smooth",
-						});
-					}
+					window.scrollTo({
+						top: targetPosition,
+						behavior: "smooth",
+					});
 
 					// Update active menu item
 					updateActiveMenuItem(targetId);
 
 					// Close mobile menu if open
-					const navigation = document.querySelector(".main-navigation");
+					const navigation = document.querySelector(
+						".header-nav, .main-navigation"
+					);
 					const menuToggle = document.querySelector(".menu-toggle");
-					if (navigation.classList.contains("active")) {
-						navigation.classList.remove("active");
+					if (navigation && navigation.classList.contains("mobile-active")) {
+						navigation.classList.remove("mobile-active");
 						menuToggle.classList.remove("active");
+						document.body.classList.remove("mobile-menu-open");
 					}
 				}
 			});
@@ -116,13 +134,13 @@ document.addEventListener("DOMContentLoaded", function () {
 	// Header scroll effect
 	function initHeaderScrollEffect() {
 		const header = document.querySelector(".site-header");
-		let lastScrollTop = 0;
+		if (!header) return;
 
 		window.addEventListener("scroll", function () {
 			const scrollTop =
 				window.pageYOffset || document.documentElement.scrollTop;
 
-			if (scrollTop > 100) {
+			if (scrollTop > 50) {
 				header.classList.add("scrolled");
 			} else {
 				header.classList.remove("scrolled");
@@ -130,8 +148,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			// Update active menu item based on scroll position
 			updateActiveMenuOnScroll();
-
-			lastScrollTop = scrollTop;
 		});
 	}
 
@@ -152,33 +168,80 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 	}
 
-	// Mobile menu toggle
+	// Menu mobile simple avec burger
 	function initMobileMenu() {
-		const menuToggle = document.querySelector(".menu-toggle");
-		const navigation = document.querySelector(".main-navigation");
+		// Attendre que le DOM soit complètement chargé
+		setTimeout(() => {
+			const menuToggle = document.querySelector(".menu-toggle");
+			const navigation = document.querySelector(
+				".header-nav, .main-navigation"
+			);
+			const body = document.body;
+			let isMenuOpen = false;
 
-		if (menuToggle) {
-			menuToggle.addEventListener("click", function () {
-				navigation.classList.toggle("active");
-				menuToggle.classList.toggle("active");
+			if (!menuToggle || !navigation) {
+				return;
+			}
+
+			// Toggle du menu
+			function toggleMenu() {
+				isMenuOpen = !isMenuOpen;
+
+				if (isMenuOpen) {
+					menuToggle.classList.add("active");
+					navigation.classList.add("mobile-active");
+					body.classList.add("mobile-menu-open");
+				} else {
+					menuToggle.classList.remove("active");
+					navigation.classList.remove("mobile-active");
+					body.classList.remove("mobile-menu-open");
+				}
+			}
+
+			// Clic sur le bouton burger
+			menuToggle.addEventListener("click", (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				toggleMenu();
 			});
-		}
 
-		// Close menu when clicking outside
-		document.addEventListener("click", function (e) {
-			if (!navigation.contains(e.target) && !menuToggle.contains(e.target)) {
-				navigation.classList.remove("active");
-				menuToggle.classList.remove("active");
-			}
-		});
+			// Fermer en cliquant à l'extérieur
+			document.addEventListener("click", (e) => {
+				if (
+					isMenuOpen &&
+					!navigation.contains(e.target) &&
+					!menuToggle.contains(e.target)
+				) {
+					toggleMenu();
+				}
+			});
 
-		// Close menu on escape key
-		document.addEventListener("keydown", function (e) {
-			if (e.key === "Escape") {
-				navigation.classList.remove("active");
-				menuToggle.classList.remove("active");
-			}
-		});
+			// Fermer avec Echap
+			document.addEventListener("keydown", (e) => {
+				if (e.key === "Escape" && isMenuOpen) {
+					toggleMenu();
+				}
+			});
+
+			// Fermer le menu au clic sur un lien
+			const menuLinks = navigation.querySelectorAll("a");
+			menuLinks.forEach((link) => {
+				link.addEventListener("click", () => {
+					if (isMenuOpen) {
+						setTimeout(() => toggleMenu(), 200);
+					}
+				});
+			});
+
+			// Fermer si redimensionnement vers desktop
+			window.addEventListener("resize", () => {
+				if (window.innerWidth > 992 && isMenuOpen) {
+					toggleMenu();
+				}
+			});
+
+			console.log("Menu mobile initialisé avec succès");
+		}, 100);
 	}
 
 	// Slider functionality
@@ -356,19 +419,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		window.addEventListener("scroll", checkScroll);
 		checkScroll(); // Check on load
-	} // Initialize all functions
-	initPageLoader();
-	initSmoothScrolling();
-	initHeaderScrollEffect();
-	initMobileMenu();
-	initSlider();
-	initScrollIndicator();
-	initScrollAnimations();
+	}
 
-	// Set initial active menu item
-	if (window.location.hash) {
-		updateActiveMenuItem(window.location.hash);
-	} else {
-		updateActiveMenuItem("#home");
+	// Initialize all functions
+	initDynamicBackgrounds(); // Sur toutes les pages
+	initPageLoader();
+	initHeaderScrollEffect();
+	initMobileMenu(); // Menu mobile sur toutes les pages
+
+	// Fonctions spécifiques à la homepage
+	if (document.body.classList.contains("home")) {
+		initSmoothScrolling();
+		initSlider();
+		initScrollIndicator();
+		initScrollAnimations();
+
+		// Set initial active menu item
+		if (window.location.hash) {
+			updateActiveMenuItem(window.location.hash);
+		} else {
+			updateActiveMenuItem("#home");
+		}
 	}
 });

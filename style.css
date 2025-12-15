@@ -2570,12 +2570,25 @@ body:not(.home) {
 	background: white;
 }
 
-/* Header banner avec image d'en-tête */
+/* Header banner avec image d'en-tête - pour pages standard et contact */
 .contact-header-banner {
 	position: relative;
-	height: 30rem;
 	overflow: hidden;
 	margin-bottom: 0;
+	/* Hauteur définie inline par le customizer pour écrans > 480px */
+}
+
+/* Hauteurs fixes pour mobile - écrasent la hauteur inline du customizer */
+@media (max-width: 768px) {
+	.contact-header-banner {
+		height: 20rem !important; /* Force la hauteur sur tablet */
+	}
+}
+
+@media (max-width: 480px) {
+	.contact-header-banner {
+		height: 15rem !important; /* Force la hauteur sur mobile */
+	}
 }
 
 .contact-header-image {
@@ -2597,7 +2610,7 @@ body:not(.home) {
 	background: rgba(0, 0, 0, 0.3);
 }
 
-/* Content wrapper */
+/* Content wrapper pour pages standard et contact */
 .contact-content-wrapper {
 	padding: 4rem 0;
 }
@@ -2615,6 +2628,7 @@ body:not(.home) {
 	text-transform: uppercase;
 	z-index: 10;
 	margin: 0;
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 .contact-page .entry-header {
@@ -2658,10 +2672,6 @@ body:not(.home) {
 
 /* Responsive */
 @media (max-width: 768px) {
-	.contact-header-banner {
-		height: 20rem; /* Plus petit sur mobile */
-	}
-
 	.contact-header-title {
 		font-size: 2rem;
 	}
@@ -2687,10 +2697,6 @@ body:not(.home) {
 }
 
 @media (max-width: 480px) {
-	.contact-header-banner {
-		height: 15rem;
-	}
-
 	.contact-page .entry-title {
 		font-size: 1.75rem;
 	}
@@ -2746,8 +2752,7 @@ body:not(.home) {
 .wpcf7-form input[type="tel"]:focus,
 .wpcf7-form textarea:focus {
 	outline: none;
-	border-color: #007cba;
-	box-shadow: 0 0 0 3px rgba(0, 124, 186, 0.1);
+	border-color: black;
 }
 
 /* Style du textarea */
@@ -2943,7 +2948,7 @@ body:not(.home) {
 
 /* Container utility */
 .container {
-	max-width: 1200px;
+	max-width: 1440px;
 	margin: 0 auto;
 	padding: 0 2rem;
 }
